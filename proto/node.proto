@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+package node.v1;
+
+option go_package = "edi_sem2/internal/gen/nodepb;nodepb";
+
+message PingRequest {
+  string peer_id = 1;
+}
+
+message PingResponse {
+  bool ok = 1;
+}
+
+message StoreBlockRequest {
+  string cid = 1;
+  bytes data = 2;
+}
+
+message StoreBlockResponse {
+  bool ok = 1;
+  string error_message = 2;
+}
+
+message GetBlockRequest {
+  string cid = 1;
+}
+
+message GetBlockResponse {
+  bytes data = 1;
+  string error_message = 2;
+}
+
+message FindProviderRequest {
+  string cid = 1;
+}
+
+message PeerEndpoint {
+  string peer_id = 1;
+  string grpc_addr = 2;
+  string http_addr = 3;
+}
+
+message FindProviderResponse {
+  repeated PeerEndpoint providers = 1;
+}
+
+message JoinNetworkRequest {
+  PeerEndpoint self = 1;
+}
+
+message JoinNetworkResponse {
+  repeated PeerEndpoint known_peers = 1;
+  bool accepted = 2;
+  string error_message = 3;
+}
+
+message LeaveNetworkRequest {
+  string peer_id = 1;
+}
+
+message LeaveNetworkResponse {
+  bool ok = 1;
+}
+
+message HeartbeatRequest {
+  string peer_id = 1;
+}
+
+message HeartbeatResponse {
+  bool ok = 1;
+}
+
+message AddProviderRequest {
+  string cid = 1;
+  PeerEndpoint provider = 2;
+}
+
+message AddProviderResponse {
+  bool ok = 1;
+}
+
+// Node is the inter-peer RPC surface (PING, block I/O, DHT provider hints, lifecycle).
+service Node {
+  rpc Ping(PingRequest) returns (PingResponse);
+  rpc StoreBlock(StoreBlockRequest) returns (StoreBlockResponse);
+  rpc GetBlock(GetBlockRequest) returns (GetBlockResponse);
+  rpc FindProvider(FindProviderRequest) returns (FindProviderResponse);
+  rpc JoinNetwork(JoinNetworkRequest) returns (JoinNetworkResponse);
+  rpc LeaveNetwork(LeaveNetworkRequest) returns (LeaveNetworkResponse);
+  rpc Heartbeat(HeartbeatRequest) returns (HeartbeatResponse);
+  rpc AddProvider(AddProviderRequest) returns (AddProviderResponse);
+}

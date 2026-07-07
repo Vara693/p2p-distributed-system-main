@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  bootstrap:
+    build: .
+    entrypoint: ["/bin/bootstrap"]
+    ports:
+      - "9099:9099"
+    environment:
+      - BOOTSTRAP_ADDR=:9099
+    networks:
+      - p2p_overlay
+
+  node1:
+    build: .
+    entrypoint: ["/bin/node", "serve", "-data", "/root/node1", "-grpc", "0.0.0.0:50051", "-http", "0.0.0.0:8080", "-bootstrap", "http://bootstrap:9099", "-replication", "3"]
+    ports:
+      - "50051:50051"
+      - "8080:8080"
+    volumes:
+      - node1_data:/root/node1
+    depends_on:
+      - bootstrap
+    networks:
+      - p2p_overlay
+
+  node2:
+    build: .
+    entrypoint: ["/bin/node", "serve", "-data", "/root/node2", "-grpc", "0.0.0.0:50052", "-http", "0.0.0.0:8081", "-bootstrap", "http://bootstrap:9099", "-replication", "3"]
+    ports:
+      - "50052:50052"
+      - "8081:8081"
+    volumes:
+      - node2_data:/root/node2
+    depends_on:
+      - bootstrap
+    networks:
+      - p2p_overlay
+
+  node3:
+    build: .
+    entrypoint: ["/bin/node", "serve", "-data", "/root/node3", "-grpc", "0.0.0.0:50053", "-http", "0.0.0.0:8082", "-bootstrap", "http://bootstrap:9099", "-replication", "3"]
+    ports:
+      - "50053:50053"
+      - "8082:8082"
+    volumes:
+      - node3_data:/root/node3
+    depends_on:
+      - bootstrap
+    networks:
+      - p2p_overlay
+
+networks:
+  p2p_overlay:
+    driver: bridge
+
+volumes:
+  node1_data:
+  node2_data:
+  node3_data:

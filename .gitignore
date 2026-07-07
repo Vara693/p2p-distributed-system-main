@@ -1,0 +1,46 @@
+# ==========================
+# Chunkster .gitignore
+# ==========================
+
+# ---- Go ----
+bin/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# ---- Storage (runtime data) ----
+storage/
+
+# ---- Logs ----
+*.log
+
+# ---- IDE / Editor ----
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ---- OS ----
+desktop.ini
+nul
+
+# ---- Frontend (has its own repo) ----
+frontend/node_modules/
+frontend/dist/
+frontend/.vercel/
+
+# ---- Misc test artifacts ----
+*.mp3
+*.mp4
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.docx
+*.pdf
+restored.*
