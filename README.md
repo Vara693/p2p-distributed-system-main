@@ -22,7 +22,7 @@
 |---|---|
 | **Content Addressing** | Every 256 KiB chunk is identified by its SHA-256 hash (CID). No filenames, no URLs — just cryptographic identity. |
 | **Kademlia DHT Routing** | Nodes are organized using XOR distance metrics. Lookups converge in O(log N) hops, not brute force. |
-| **Merkle DAG Integrity** | Files are represented as a tree of chunk hashes. Tampering with any single byte changes the root CID. |
+| **Merkle DAG Integrity** | Files are represented as a tree or DAG(directed acyclic graph) of chunk hashes. Tampering with any single byte changes the root CID. |
 | **Automatic Replication** | Each chunk is pushed to the 3 topologically closest peers via gRPC, surviving individual node failures. |
 | **Self-Healing Network** | Dead peers are detected within 60 seconds by heartbeat monitors and evicted to make room for new nodes. |
 | **Global Deployment** | Works over LAN (raw Wi-Fi IPs) or globally (Tailscale mesh + Ngrok HTTP tunnels). |
